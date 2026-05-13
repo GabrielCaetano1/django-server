@@ -5,8 +5,8 @@ from .forms import UserForm
 
 # Create your views here.
 def list_users(request):
-    user = User.objects.all()
-    return render(request, 'users/list.html', {'user': user})
+    users = User.objects.all()
+    return render(request, 'users/list.html', {'users': users})
 
 def create_user(request):
     if request.method == 'POST':
@@ -14,9 +14,9 @@ def create_user(request):
         if form.is_valid():
             form.save()
             return redirect('list_users')
-        else:
-            form = UserForm()
-        return render(request, 'users/form.html', {'form': form})
+    else:
+        form = UserForm()
+    return render(request, 'users/form.html', {'form': form})
     
 def edit_user(request, pk):
     user = get_object_or_404(User, pk=pk)
@@ -25,9 +25,9 @@ def edit_user(request, pk):
         if form.is_valid():
             form.save()
             return redirect('list_users')
-        else:
-            form = UserForm(instance=user)
-        return render(request, 'users/form.html', {'form': form})
+    else:
+        form = UserForm(instance=user)
+    return render(request, 'users/form.html', {'form': form})
     
 def delete_user(request, pk):
     user = get_object_or_404(User, pk=pk)
